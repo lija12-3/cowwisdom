@@ -15,6 +15,7 @@ jobs:
 
       - name: Set up Minikube
         run: |
+          minikube start --profile=minikube
           minikube status  # Verify Minikube is running
           minikube kubectl -- get nodes  # Verify kubectl can connect to Minikube
 
