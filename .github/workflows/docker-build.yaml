@@ -27,7 +27,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: your-dockerhub-username/wisecow:latest
+        tags: lijajose/wisecow:latest
 
     - name: Install kubectl
       run: |
