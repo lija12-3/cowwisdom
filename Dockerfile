@@ -1,19 +1,17 @@
-# Start from a base Ubuntu image
+# Use a lightweight base image
 FROM ubuntu:latest
 
-# Install cowsay and fortune-mod (required by wisecow.sh)
-RUN apt-get update \
-    && apt-get install -y cowsay fortune-mod \
-    && rm -rf /var/lib/apt/lists/*
+# Install necessary packages
+RUN apt-get update && apt-get install -y fortune-mod cowsay
 
-# Copy the wisecow.sh script and Kubernetes manifests
-COPY wisecow.sh /
-COPY wisecowDeployment.yaml /
-COPY wisecowService.yaml /
-COPY wisecowIngress.yaml /
+# Copy the application files
+COPY wisecow.sh /usr/local/bin/wisecow.sh
 
-# Set environment variables if needed
-# ENV ENV_VAR_NAME=value
+# Make the script executable
+RUN chmod +x /usr/local/bin/wisecow.sh
 
-# Set the entrypoint for the container
-CMD ["/bin/bash", "/wisecow.sh"]
+# Expose the application port
+EXPOSE 4499
+
+# Set the entrypoint
+ENTRYPOINT ["/usr/local/bin/wisecow.sh"]
