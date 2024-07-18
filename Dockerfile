@@ -1,17 +1,16 @@
-# Use a lightweight base image
-FROM ubuntu:latest
+# Use a base image with necessary tools and packages
+FROM ubuntu:20.04
 
 # Install necessary packages
-RUN apt-get update && apt-get install -y fortune-mod cowsay
+RUN apt-get update && \
+    apt-get install -y fortune-mod cowsay
 
-# Copy the application files
-COPY wisecow.sh /usr/local/bin/wisecow.sh
+# Copy application files (adjust as per your project)
+COPY . /app
 
-# Make the script executable
-RUN chmod +x /usr/local/bin/wisecow.sh
+# Set the working directory
+WORKDIR /app
 
-# Expose the application port
-EXPOSE 4499
+# Example command to run your application
+CMD ["./wisecow.sh"]
 
-# Set the entrypoint
-ENTRYPOINT ["/usr/local/bin/wisecow.sh"]
