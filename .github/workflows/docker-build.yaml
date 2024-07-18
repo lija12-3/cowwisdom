@@ -1,4 +1,4 @@
-name: Minikube Deployment
+name: Deploy to Minikube
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
 
       - name: Load Docker image into Minikube
         run: |
-          eval $(minikube docker-env)
+          eval $(minikube -p minikube docker-env)
           docker build -t wisecow-app .
           docker tag wisecow-app:latest minikube:5000/wisecow-app:latest
           docker push minikube:5000/wisecow-app:latest
