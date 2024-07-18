@@ -35,6 +35,17 @@ jobs:
           kubectl apply -f wisecowDeployment.yaml
           kubectl apply -f wisecowService.yaml
           kubectl apply -f wisecowIngress.yaml
+          - name: Check deployment status
+        run: |
+          kubectl get deployments
+
+      - name: Check service status
+        run: |
+          kubectl get services
+
+      - name: Check ingress status
+        run: |
+          kubectl get ingress
 
 
      
