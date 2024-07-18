@@ -27,8 +27,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t lijajose/wisecow:$GITHUB_SHA .
-          docker push lijajose/wisecow:$GITHUB_SHA
+          docker build -t lijajose/wisecow:latest .
+          docker push lijajose/wisecow:latest
 
       - name: Deploy to Minikube
         run: |
