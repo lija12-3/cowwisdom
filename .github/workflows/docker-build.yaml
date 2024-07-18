@@ -28,3 +28,11 @@ jobs:
         context: .
         push: true
         tags: lijajose/wisecow:latest
+     - name: Deploy to Kubernetes
+      uses: appleboy/k8s-deploy-action@v1.4.0
+      with:
+        kubeconfig: ${{ secrets.KUBECONFIG }}
+        manifests: |
+          k8s/wisecow-deployment.yaml
+          k8s/wisecow-service.yaml
+          k8s/wisecow-ingress.yaml 
