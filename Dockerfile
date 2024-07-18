@@ -1,22 +1,19 @@
-# Use a base image with Bash and netcat (nc) available
-FROM alpine:latest
+# Start from a base Ubuntu image
+FROM ubuntu:latest
 
 # Install cowsay and fortune-mod (required by wisecow.sh)
-RUN apk --no-cache add cowsay fortune-mod
+RUN apt-get update \
+    && apt-get install -y cowsay fortune-mod \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set environment variables
-ENV SRVPORT=4499
-ENV RSPFILE=response
-
-# Copy wisecow.sh script into the container
+# Copy the wisecow.sh script and Kubernetes manifests
 COPY wisecow.sh /
+COPY wisecowDeployment.yaml /
+COPY wisecowService.yaml /
+COPY wisecowIngress.yaml /
 
-# Make wisecow.sh executable
-RUN chmod +x /wisecow.sh
+# Set environment variables if needed
+# ENV ENV_VAR_NAME=value
 
-# Expose the port on which the application will run
-EXPOSE $SRVPORT
-
-# Set the entrypoint to run the wisecow.sh script
-CMD ["/wisecow.sh"]
-
+# Set the entrypoint for the container
+CMD ["/bin/bash", "/wisecow.sh"]
