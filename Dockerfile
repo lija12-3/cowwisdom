@@ -1,19 +1,22 @@
+# Use a base image with Bash and netcat (nc) available
+FROM alpine:latest
 
-FROM ubuntu:20.04
+# Install cowsay and fortune-mod (required by wisecow.sh)
+RUN apk --no-cache add cowsay fortune-mod
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y apt-transport-https
+# Set environment variables
+ENV SRVPORT=4499
+ENV RSPFILE=response
 
-# Install fortune-mod and cowsay
-RUN apt-get install -y fortune-mod cowsay
+# Copy wisecow.sh script into the container
+COPY wisecow.sh /
 
-# Copy application files (adjust as per your project)
-COPY . /app
+# Make wisecow.sh executable
+RUN chmod +x /wisecow.sh
 
-# Set the working directory
-WORKDIR /app
+# Expose the port on which the application will run
+EXPOSE $SRVPORT
 
-# Example command to run your application
-CMD ["./wisecow.sh"]
+# Set the entrypoint to run the wisecow.sh script
+CMD ["/wisecow.sh"]
 
